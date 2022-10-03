@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Searchbar = styled.div` 
+const Header = styled.header` 
 top: 0;
 left: 0;
 position: sticky;
@@ -18,7 +18,7 @@ background-color: #3f51b5;
 box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 `;
 
-const SearchForm = styled.div` 
+const SearchForm = styled.form` 
 display: flex;
 align-items: center;
 width: 100%;
@@ -47,19 +47,16 @@ outline: none;
 }
 `;
 
-const SearchFormBtnLabel = styled.div` 
+const SearchFormBtnLabel = styled.span` 
 position: absolute;
 width: 1px;
 height: 1px;
 padding: 0;
-overflow: hidden;
-clip: rect(0, 0, 0, 0);
 white-space: nowrap;
-clip-path: inset(50%);
 border: 0;
 `;
 
-const SearchFormInput = styled.div` 
+const SearchFormInput = styled.input` 
 display: inline-block;
 width: 100%;
 font: inherit;
@@ -76,9 +73,9 @@ padding-right: 4px;
 `;
 
 export {
-    Searchbar,
-    SearchForm,
-    SearchFormBtn,
-    SearchFormBtnLabel,
-    SearchFormInput,
+  Header,
+  SearchForm,
+  SearchFormBtn,
+  SearchFormBtnLabel,
+  SearchFormInput,
 }
