@@ -14,16 +14,18 @@ z-index: 1200;
 `;
 
 const ModalContent = styled.div` 
-background-color: #ffffff;
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-height: 300px;
-width: 500px;
+max-width: calc(100vw - 48px);
+max-height: calc(100vh - 24px);
+`;
+
+const ModalImg = styled.img` 
+display: block;
+width: 100%;
+border-radius: 4px;
 `;
 
 export {
     Overlay,
     ModalContent,
+    ModalImg
 }

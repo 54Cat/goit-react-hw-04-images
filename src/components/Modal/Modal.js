@@ -1,6 +1,6 @@
 import React from "react";
 import { createPortal } from 'react-dom';
-import { Overlay, ModalContent } from 'components/Modal/ModalStyled';
+import { Overlay, ModalContent, ModalImg } from 'components/Modal/ModalStyled';
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -24,17 +24,14 @@ export default class Modal extends React.Component {
             this.props.onClose();
         }      
     }
-    
 
     render() {
-        return createPortal(
+        const { modalURL, alt } = this.props.content;
 
+        return createPortal(
             <Overlay onClick={this.handleBackdropClick}>
                 <ModalContent>
-                    <h2>Hello</h2>
-                    <button type='button' onClick={this.props.onClose}>close</button>
-                
-                    {/* <img src="" alt="" />                */}
+                    <ModalImg src={modalURL} alt={alt} />
                 </ModalContent>
             </Overlay>,
             modalRoot

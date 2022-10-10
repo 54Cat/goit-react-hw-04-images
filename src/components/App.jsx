@@ -1,52 +1,32 @@
-import React from "react";
+import { Component } from "react";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from 'components/Searchbar/Searchbar';
-import FetchApi from 'components/FetchApi/FetchApi';
-// import ImageGallery from 'components/ImageGallery/ImageGallery';
-// import Modal from 'components/Modal/Modal';
+import ImageGallery from 'components/ImageGallery/ImageGallery';
 
 import { Container } from 'components/AppStyled';
 
-
-export default class App extends React.Component {
+export default class App extends Component {
   state = {
-    searchQuery: null,
-    page: 1,
-    loading: false,
-    showModal: false
+    searchImgs: '',
   };
-
-    //   componentDidMount() {
-    //     console.log("componentDidMount");
-    // }
-
-  toggleModal = ()=> {
-    this.setState(({showModal}) => ({
-      showModal: !showModal
-    }))
-  }
   
-  handleFormSubmit = searchQuery => {
-    this.setState({ searchQuery });
+  handleFormSubmit = searchImgs => {
+    this.setState({ searchImgs });
   }
   
   render() {
-    // const { showModal, loading, searchQuery } = this.state;
+    const { searchImgs } = this.state;
+    const { handleFormSubmit } = this;
     
-    return (   
-
-      
+    return (         
       <Container>
-        <Searchbar onSubmit={this.handleFormSubmit} />
-        <FetchApi></FetchApi>
-
-        {/* <ImageGallery searchQuery={searchQuery} />
-        
-        <button type="button" onClick={this.toggleModal}>Modal</button>
-        {showModal && <Modal onClose={this.toggleModal} />}
-
-        {loading && <p>Loading...</p>}
-        {searchQuery && <div>{searchQuery.name}</div>} */}
-                
+        <Searchbar onSubmit={handleFormSubmit} />
+        <ImageGallery searchImgs={searchImgs} /> 
+        <ToastContainer
+          autoClose={3000}
+          pauseOnFocusLoss={false}
+        />
       </Container>
     ); 
   } 

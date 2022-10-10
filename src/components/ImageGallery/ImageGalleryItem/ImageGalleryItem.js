@@ -1,10 +1,10 @@
 // import PropTypes from 'prop-types';
-import { GalleryItem, GalleryItemImage } from 'components/ImageGalleryItem/ImageGalleryItemStyled';
+import { GalleryItem, GalleryItemImage } from 'components/ImageGallery/ImageGalleryItem/ImageGalleryItemStyled';
 
-export default function ImageGalleryItem({ modal, src, alt, onClick }) {
+export default function ImageGalleryItem({src, modalURL,  alt, onClickImg }) {
 
     return (
-        <GalleryItem onClick={onClick}>
+        <GalleryItem onClick={() => {onClickImg({modalURL, alt})}}>
             <GalleryItemImage src={src} alt={alt} />           
         </GalleryItem>
     );

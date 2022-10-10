@@ -9,6 +9,7 @@ padding-bottom: 24px;
 
 const Container = styled.div` 
 padding: 16px;
+text-align: center;
 `;
 
 export {

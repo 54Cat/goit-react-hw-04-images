@@ -1,32 +1,38 @@
-import React from "react";
-// import PropTypes from 'prop-types';
+import { Component } from "react";
+import { toast } from 'react-toastify';
 import { Header, SearchForm, SearchFormBtn, SearchFormBtnLabel, SearchFormInput } from 'components/Searchbar/SearchbarStyled';
+// import PropTypes from 'prop-types';
 
-export default class Searchbar extends React.Component {
+export default class Searchbar extends Component {
     state = {
-        searchQuery: '',
+        searchImgs: '',
     }
 
-    handelEnterSearchQuery = e => {
-        this.setState({ searchQuery: e.currentTarget.value.toLowerCase() });
+    handelSearchImgs = e => {
+        this.setState({ searchImgs: e.currentTarget.value.toLowerCase() });
     }
 
     handleSubmit = e => {
+        const { searchImgs } = this.state;
+
         e.preventDefault();
 
-        if (this.state.searchQuery.trim() === '') {
-            alert("enter search");
+        if (searchImgs.trim() === '') {
+            toast.warn('Please, enter a search query!');
             return;
         }
         
-        this.props.onSubmit(this.state.searchQuery)
-        this.setState({ searchQuery: '' });
+        this.props.onSubmit(searchImgs)
+        this.setState({ searchImgs: '' });
     }
 
     render() {
+        const { searchImgs } = this.state;        
+        const { handleSubmit, handelSearchImgs } = this;      
+
         return (
             <Header>
-                <SearchForm onSubmit={this.handleSubmit}>
+                <SearchForm onSubmit={handleSubmit}>
                     <SearchFormBtn type="submit">
                         <SearchFormBtnLabel>Search</SearchFormBtnLabel>
                     </SearchFormBtn>
@@ -36,8 +42,8 @@ export default class Searchbar extends React.Component {
                         autocomplete="off"
                         autoFocus
                         placeholder="Search images and photos"
-                        value={this.state.searchQuery}
-                        onChange={this.handelEnterSearchQuery}
+                        value={searchImgs}
+                        onChange={handelSearchImgs}
                     />
                 </SearchForm>
             </Header>
