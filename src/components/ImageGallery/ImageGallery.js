@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef } from "react";
 import Loader from 'components/Loader/Loader'
 import Notification from 'components/Notification/Notification'
 import Button from 'components/Button/Button'
@@ -8,10 +8,9 @@ import FetchApi from 'components/FetchApi/FetchApi'
 import { toast } from 'react-toastify';
 
 export default function ImageGallery({searchImgs}) {
-    
+    const perPage = 12;
     const [images, setImages] = useState([]);
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(12);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -20,52 +19,62 @@ export default function ImageGallery({searchImgs}) {
         src: '',
         alt: '',
     });
-
-    useEffect(() => {
-        if (!searchImgs) { 
-            return;          
-        }
-        setPage(1);
-        fetchImg ();
-    }, [searchImgs])
+    const prevSearchQuery = usePrev(searchImgs);
+    const prevPage = usePrev(page);
     
     useEffect(() => {
+        const fetchImg = async (searchQuery) => {
+            setLoading(true);
+
+            try {
+                const result = await FetchApi(searchQuery, page, perPage);
+                const data = result.hits;
+                const totalPage = Math.ceil(result.totalHits / perPage);
+
+                if (result.totalHits === 0) {
+                    return toast.warn("Nothing found! Try again, please.");
+                }
+                else if (page === 1) {
+                    setShowLoadMore(true);
+                    setImages([...data]);
+                }
+                else if (page >= totalPage) {
+                    setImages(prevImages => [...prevImages, ...data]);
+                    setShowLoadMore(false);
+                }
+                else {
+                    setImages(prevImages => [...prevImages, ...data]);
+                    setShowLoadMore(true);
+                }
+            }
+            catch (error) {
+                setError({ error });
+            }
+            finally {
+                setLoading(false);
+            }
+        }
+
         if (!searchImgs) {    
-            return;           
+            return;
         }
-        fetchImg();
-    }, [page])
+
+        if (prevPage !== page) {
+            fetchImg(searchImgs);
+        }
+        else if (prevSearchQuery !== searchImgs) {
+            setPage(1);
+            fetchImg(searchImgs);
+        }
+ 
+    }, [page, searchImgs, prevSearchQuery, prevPage])
     
-    const fetchImg = async () => {
-        setLoading(true);
-
-        try {
-            const result = await FetchApi(searchImgs, page, perPage);
-            const data = result.hits;
-            const totalPage = Math.ceil(result.totalHits / perPage);
-
-            if (result.totalHits === 0) {
-                return toast.warn("Nothing found! Try again, please.");
-            }
-            else if (page === 1) {
-                setShowLoadMore(true);
-                setImages([...data]);
-            }
-            else if (page >= totalPage) {
-                setImages([...images, ...data]);
-                setShowLoadMore(false);
-            }
-            else {
-                setImages([...images, ...data]);
-                setShowLoadMore(true);
-            }
-        }
-        catch (error) {
-            setError({ error });
-        }
-        finally {
-            setLoading(false);
-        }
+    function usePrev(value) {
+        const el = useRef();
+        useEffect(() => {
+            el.current = value;
+        });
+        return el.current;
     }
 
     const loadMore = () => {
