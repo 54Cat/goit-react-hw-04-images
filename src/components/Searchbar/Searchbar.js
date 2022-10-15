@@ -1,20 +1,17 @@
-import { Component } from "react";
+import { useState } from "react";
 import { toast } from 'react-toastify';
 import { Header, SearchForm, SearchFormBtn, SearchFormBtnLabel, SearchFormInput } from 'components/Searchbar/SearchbarStyled';
 // import PropTypes from 'prop-types';
 
-export default class Searchbar extends Component {
-    state = {
-        searchImgs: '',
+export default function Searchbar({onSubmit}) {   
+    const [searchImgs, setSearchImgs] = useState('');
+
+
+    const handelSearchImgs = e => {
+        setSearchImgs( e.currentTarget.value.toLowerCase() );
     }
 
-    handelSearchImgs = e => {
-        this.setState({ searchImgs: e.currentTarget.value.toLowerCase() });
-    }
-
-    handleSubmit = e => {
-        const { searchImgs } = this.state;
-
+    const handleSubmit = e => {
         e.preventDefault();
 
         if (searchImgs.trim() === '') {
@@ -22,13 +19,9 @@ export default class Searchbar extends Component {
             return;
         }
         
-        this.props.onSubmit(searchImgs)
-        this.setState({ searchImgs: '' });
-    }
-
-    render() {
-        const { searchImgs } = this.state;        
-        const { handleSubmit, handelSearchImgs } = this;      
+        onSubmit(searchImgs);
+        setSearchImgs('');
+    }     
 
         return (
             <Header>
@@ -47,7 +40,5 @@ export default class Searchbar extends Component {
                     />
                 </SearchForm>
             </Header>
-
         );
     }
-}
