@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import { Header, SearchForm, SearchFormBtn, SearchFormBtnLabel, SearchFormInput } from 'components/Searchbar/SearchbarStyled';
-// import PropTypes from 'prop-types';
 
 export default function Searchbar({onSubmit}) {   
     const [searchImgs, setSearchImgs] = useState('');
-
 
     const handelSearchImgs = e => {
         setSearchImgs( e.currentTarget.value.toLowerCase() );
