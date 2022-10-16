@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef } from "react";
+import {useEffect, useState } from "react";
 import Loader from 'components/Loader/Loader'
 import Notification from 'components/Notification/Notification'
 import Button from 'components/Button/Button'
@@ -19,8 +19,10 @@ export default function ImageGallery({searchImgs}) {
         src: '',
         alt: '',
     });
-    const prevSearchQuery = usePrev(searchImgs);
-    const prevPage = usePrev(page);
+
+    useEffect(() => {
+        setPage(1);
+    }, [searchImgs]);
     
     useEffect(() => {
         const fetchImg = async (searchQuery) => {
@@ -59,23 +61,8 @@ export default function ImageGallery({searchImgs}) {
             return;
         }
 
-        if (prevPage !== page) {
-            fetchImg(searchImgs);
-        }
-        else if (prevSearchQuery !== searchImgs) {
-            setPage(1);
-            fetchImg(searchImgs);
-        }
- 
-    }, [page, searchImgs, prevSearchQuery, prevPage])
-    
-    function usePrev(value) {
-        const el = useRef();
-        useEffect(() => {
-            el.current = value;
-        });
-        return el.current;
-    }
+        fetchImg(searchImgs);
+    }, [page, searchImgs])
 
     const loadMore = () => {
         setPage(page => page + 1);

@@ -6,7 +6,7 @@ import ImageGallery from 'components/ImageGallery/ImageGallery';
 import { Container } from 'components/AppStyled';
 
 export default function App() {
-const [searchImgs, setSearchImgs] = useState('');
+  const [searchImgs, setSearchImgs] = useState('');
     
   return (         
     <Container>
